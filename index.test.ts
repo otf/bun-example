@@ -11,3 +11,7 @@ test("adds two numbers", () => {
 test("success", () => {
   expect(Effect.runSync(Effect.succeed(42))).toBe((42));
 });
+
+test("Effect.pipe", () => {
+  expect(Effect.runSync(Effect.succeed(42).pipe(Effect.map(i => i * 2)))).toBe((84));
+});
