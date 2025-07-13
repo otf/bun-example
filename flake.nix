@@ -2,25 +2,14 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    systems.url = "github:nix-systems/default";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-parts,
-    ...
-  }:
-    flake-parts.lib.mkFlake {inherit self;} {
-      systems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
+  outputs = inputs @ {self, ...}:
+    inputs.flake-parts.lib.mkFlake {inherit self;} {
+      systems = import inputs.systems;
 
-      perSystem = {
-        config,
-        self',
-        inputs',
-        pkgs,
-        system,
-        ...
-      }: {
+      perSystem = {pkgs, ...}: {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             bun
