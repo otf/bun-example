@@ -1,5 +1,1 @@
-// console.log("Hello via Bun!");
-
-export function sum(a: number, b: number): number {
-  return a + b;
-}
+bun test
